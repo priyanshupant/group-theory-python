@@ -10,16 +10,17 @@ def evaluate_expression(a, b, expression):
     except Exception as e:
         return f"Error: {str(e)}"
 
+
 def a_pows(a, expression, n):
     a_pows_set = {a}
-    a_pows=[a]
+    a_pows_list = [a]
 
     for i in range(n):
-        temp = evaluate_expression(a, a_pows[-1], expression)
-        a_pows.append(temp)
+        temp = evaluate_expression(a, a_pows_list[-1], expression)
+        a_pows_list.append(temp)
         a_pows_set.add(temp)
 
-    return a_pows_set
+    return a_pows_set, a_pows_list
 
 
 def powerset(input_list):
@@ -41,6 +42,7 @@ class GROUP:
         self.cayley_table = self.get_cayley_table()
         self.identity = None
         self.identity_exist = self.is_identity()
+        self.generators = []
         self.inverses = []
         self.self_invertible_elements = []
         self.not_self_invertible = self.get_not_self_invertible()
@@ -61,6 +63,8 @@ class GROUP:
         print('Is Cyclic: ', self.is_cyclic())
         print('Subgroups: ', self.get_subgroups())
         print('Centre: ', self.centre)
+        print('Generators: ', self.generators)
+        print('Normal Subgroups: ', self.get_normal_subgroups())
 
     def get_cayley_table(self):
         matrix = np.zeros((self.order, self.order))
@@ -114,6 +118,23 @@ class GROUP:
         else:
             return False
 
+    def evaluate(self, a, b):
+        try:
+            result = eval(self.expression, {'a': a, 'b': b})
+            return result
+        except ZeroDivisionError:
+            return "Error: Division by zero is not allowed."
+        except Exception as e:
+            return f"Error: {str(e)}"
+
+    def a_power_n(self, a, n: int):
+        if n == 0:
+            return self.identity
+        elif n > 0:
+            return a_pows(a, self.expression, self.order)[1][(n - 1) % self.order]
+        else:
+            return a_pows(a, self.expression, self.order)[1][self.order - abs(n) % self.order - 1]
+
     def is_abelian(self):
         if np.array_equal(self.cayley_table, np.transpose(self.cayley_table)):
             return True
@@ -121,8 +142,11 @@ class GROUP:
 
     def is_cyclic(self):
         for element in self.elements:
-            if set(self.elements) == a_pows(element, self.expression, self.order):
-                return True
+            if set(self.elements) == a_pows(element, self.expression, self.order)[0]:
+                self.generators.append(element)
+        if len(self.generators) > 0:
+            return True
+
         return False
 
     def get_not_self_invertible(self):
@@ -130,7 +154,7 @@ class GROUP:
 
     def get_subgroups(self):
         subgroups = []
-        trivial = [[], [self.identity], self.elements]
+        trivial = [[self.identity], self.elements]
         subsets = powerset(self.elements)
         subgroups += trivial
         for subset in subsets:
@@ -143,8 +167,29 @@ class GROUP:
 
         return subgroups
 
+    def is_normal(self, subgroup):
+        i = 0
+        for h in subgroup:
+            for x in self.elements:
+                if self.evaluate(x, self.evaluate(h, self.a_power_n(x, -1))) in subgroup:
+                    i += 1
+
+        if i == len(subgroup)*self.order:
+            return True
+        return False
+
+    def get_normal_subgroups(self):
+        normal_subgroup = []
+        subgroups = self.get_subgroups()
+        for subgroup in subgroups:
+            # print(subgroup)
+            # print(self.is_normal(subgroup))
+            if self.is_normal(subgroup):
+                normal_subgroup.append(subgroup)
+        return normal_subgroup
+
     def get_centre(self):
-        centre=[]
+        centre = []
         for i in range(self.order):
             if np.array_equal(self.cayley_table[i, :], self.cayley_table[:, i]):
                 centre.append(self.elements[i])

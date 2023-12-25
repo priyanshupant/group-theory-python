@@ -3,3 +3,6 @@ CAYLEY.py
 __pycache__
 test.ipynb
 .idea
+.ipynb_checkpoints
+test.ipynb
+test.py

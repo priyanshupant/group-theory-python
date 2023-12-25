@@ -14,15 +14,18 @@ As the name suggests, this project aims to explore properties of finite groups t
 - Subgroup Identification
 - Centre Determination
 
-## Working On
+## Working On Ideas
 
-- Add functions to obtain a * b, a * b^-1, a^n
-- More info about groups like generators, normal subgroups
+- ~~Add functions to obtain a * b, a * b^-1, a^n~~
+- ~~More info about groups like generators, normal subgroups~~
 - Add functionality like external direct product, quotient group.
 - Add popular groups like Z_n, U_m, S(n), A(n), D(n) to easily initialize at go.
 - Further generalise it for rings, fields, ufds, pids.
+- visualizing datasets formed for this module for different groups.
+- incorporate groups formed using matrices.
 
 ### Dependencies: 
+
 - python3
 - numpy
 
@@ -50,6 +53,10 @@ Z_5 = GROUP(elements=[0,1,2,3,4], expression='(a+b)%5')
 - get_not_self_invertible(): Return elements that are not self-invertible.
 - get_subgroups(): Find all subgroups of the group.
 - get_centre(): Find the centre of the group.
+- evaluate(a,b): gives a*b
+- a_power_n(a,n): Finds a^n for +,-ve value of n
+- get_normal_subgroups(): Find all normals subgroups of the group.
+- generators: gives all the generators
 
 ## Example Usage:
 
