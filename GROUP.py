@@ -1,22 +1,12 @@
 import numpy as np
 
 
-def evaluate_expression(a, b, expression):
-    try:
-        result = eval(expression, {'a': a, 'b': b})
-        return result
-    except ZeroDivisionError:
-        return "Error: Division by zero is not allowed."
-    except Exception as e:
-        return f"Error: {str(e)}"
-
-
-def a_pows(a, expression, n):
+def a_pows(a, function, n):
     a_pows_set = {a}
     a_pows_list = [a]
 
     for i in range(n):
-        temp = evaluate_expression(a, a_pows_list[-1], expression)
+        temp = function(a, a_pows_list[-1])
         a_pows_list.append(temp)
         a_pows_set.add(temp)
 
@@ -35,22 +25,22 @@ def powerset(input_list):
 
 
 class GROUP:
-    def __init__(self, elements: list, expression: str):
-        self.elements = elements
-        self.expression = expression
+    def __init__(self, elements: list, func):
+        self.elements = list(elements)
+        self.function = func
         self.order = len(self.elements)
         self.cayley_table = self.get_cayley_table()
         self.identity = None
         self.identity_exist = self.is_identity()
-        self.generators = []
-        self.inverses = []
-        self.self_invertible_elements = []
+        self.generators = set()
+        self.inverses = set()
+        self.self_invertible_elements = set()
         self.not_self_invertible = self.get_not_self_invertible()
         self.centre = self.get_centre()
 
     def info(self):
         print("Is Group: ", self.is_group())
-        print('Elements: ', self.elements)
+        print('Elements: ', set(self.elements))
         print('Order: ', self.order)
         print('Cayley Table: \n', self.cayley_table)
         print('Identity Exist: ', self.identity_exist)
@@ -68,14 +58,14 @@ class GROUP:
 
     def get_cayley_table(self):
         if type(self.elements[0]) is str:
-            matrix = np.zeros((self.order, self.order),dtype='1<U')
+            matrix = np.zeros((self.order, self.order), dtype='1<U')
         else:
             matrix = np.zeros((self.order, self.order))
         row = 0
         for element1 in self.elements:
             col = 0
             for element2 in self.elements:
-                matrix[row, col] = eval(self.expression, {'a': element1, 'b': element2})
+                matrix[row, col] = self.function(element1, element2)
                 col += 1
             row += 1
         return matrix
@@ -100,11 +90,11 @@ class GROUP:
         for i in range(self.order):
             for j in range(self.order):
                 if self.cayley_table[i, j] == self.cayley_table[j, i] == self.identity:
-                    pair = [self.elements[j], self.elements[i]]
-                    if pair not in self.inverses and pair[::-1] not in self.inverses:
-                        self.inverses.append(pair)
+                    pair = (self.elements[j], self.elements[i])
+                    if pair not in list(self.inverses) and pair[::-1] not in list(self.inverses):
+                        self.inverses.add(pair)
                         if i == j:
-                            self.self_invertible_elements.append(self.elements[i])
+                            self.self_invertible_elements.add(self.elements[i])
 
         length = 0
         if len(self.get_not_self_invertible()) != 0:
@@ -121,22 +111,13 @@ class GROUP:
         else:
             return False
 
-    def evaluate(self, a, b):
-        try:
-            result = eval(self.expression, {'a': a, 'b': b})
-            return result
-        except ZeroDivisionError:
-            return "Error: Division by zero is not allowed."
-        except Exception as e:
-            return f"Error: {str(e)}"
-
     def a_power_n(self, a, n: int):
         if n == 0:
             return self.identity
         elif n > 0:
-            return a_pows(a, self.expression, self.order)[1][(n - 1) % self.order]
+            return a_pows(a, self.function, self.order)[1][(n - 1) % self.order]
         else:
-            return a_pows(a, self.expression, self.order)[1][self.order - abs(n) % self.order - 1]
+            return a_pows(a, self.function, self.order)[1][self.order - abs(n) % self.order - 1]
 
     def is_abelian(self):
         if np.array_equal(self.cayley_table, np.transpose(self.cayley_table)):
@@ -145,28 +126,25 @@ class GROUP:
 
     def is_cyclic(self):
         for element in self.elements:
-            if set(self.elements) == a_pows(element, self.expression, self.order)[0]:
-                self.generators.append(element)
+            if set(self.elements) == a_pows(element, self.function, self.order)[0]:
+                self.generators.add(element)
         if len(self.generators) > 0:
             return True
 
         return False
 
     def get_not_self_invertible(self):
-        return [x for x in self.elements if x not in self.self_invertible_elements]
+        return set([x for x in self.elements if x not in self.self_invertible_elements])
 
     def get_subgroups(self):
         subgroups = []
-        trivial = [[self.identity], self.elements]
         subsets = [subset for subset in powerset(self.elements) if subset]
-        subgroups += trivial
         for subset in subsets:
-            if subset not in trivial:
-                subgroup = GROUP(subset, self.expression)
-                subgroup.cayley_table = subgroup.get_cayley_table()
+            subgroup = GROUP(subset, self.function)
+            subgroup.cayley_table = subgroup.get_cayley_table()
 
-                if subgroup.is_group():
-                    subgroups.append(subgroup.elements)
+            if subgroup.is_group():
+                subgroups.append(set(subgroup.elements))
 
         return subgroups
 
@@ -174,10 +152,10 @@ class GROUP:
         i = 0
         for h in subgroup:
             for x in self.elements:
-                if self.evaluate(x, self.evaluate(h, self.a_power_n(x, -1))) in subgroup:
+                if self.function(x, self.function(h, self.a_power_n(x, -1))) in subgroup:
                     i += 1
 
-        if i == len(subgroup)*self.order:
+        if i == len(subgroup) * self.order:
             return True
         return False
 
@@ -185,15 +163,14 @@ class GROUP:
         normal_subgroup = []
         subgroups = self.get_subgroups()
         for subgroup in subgroups:
-            # print(subgroup)
-            # print(self.is_normal(subgroup))
-            if self.is_normal(subgroup):
+
+            if self.is_normal(list(subgroup)):
                 normal_subgroup.append(subgroup)
         return normal_subgroup
 
     def get_centre(self):
-        centre = []
+        centre = set()
         for i in range(self.order):
             if np.array_equal(self.cayley_table[i, :], self.cayley_table[:, i]):
-                centre.append(self.elements[i])
+                centre.add(self.elements[i])
         return centre

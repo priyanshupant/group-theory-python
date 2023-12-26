@@ -19,7 +19,7 @@ As the name suggests, this project aims to explore properties of finite groups t
 - ~~Add functions to obtain a * b, a * b^-1, a^n~~
 - ~~More info about groups like generators, normal subgroups~~
 - Add functionality like external direct product, quotient group.
-- Add popular groups like Z_n, U_m, S(n), A(n), D(n) to easily initialize at go.
+- Add popular groups like ~~Z_n, U_m, K4~~ S(n), A(n), D(n) to easily initialize at go.
 - Further generalise it for rings, fields, ufds, pids.
 - visualizing datasets formed for this module for different groups.
 - incorporate groups formed using matrices.
