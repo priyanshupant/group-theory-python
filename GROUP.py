@@ -67,7 +67,10 @@ class GROUP:
         print('Normal Subgroups: ', self.get_normal_subgroups())
 
     def get_cayley_table(self):
-        matrix = np.zeros((self.order, self.order))
+        if type(self.elements[0]) is str:
+            matrix = np.zeros((self.order, self.order),dtype='1<U')
+        else:
+            matrix = np.zeros((self.order, self.order))
         row = 0
         for element1 in self.elements:
             col = 0
@@ -155,7 +158,7 @@ class GROUP:
     def get_subgroups(self):
         subgroups = []
         trivial = [[self.identity], self.elements]
-        subsets = powerset(self.elements)
+        subsets = [subset for subset in powerset(self.elements) if subset]
         subgroups += trivial
         for subset in subsets:
             if subset not in trivial:
