@@ -39,26 +39,31 @@ class GROUP:
         self.centre = self.get_centre()
 
     def info(self):
-        print("Is Group: ", self.is_group())
-        print('Elements: ', set(self.elements))
-        print('Order: ', self.order)
-        print('Cayley Table: \n', self.cayley_table)
-        print('Identity Exist: ', self.identity_exist)
-        print('Identity: ', self.identity)
-        print('Inverses exist: ', self.is_inverse())
-        print('Inverses: ', self.inverses)
-        print('Self Invertible Elements: ', self.self_invertible_elements)
-        print('Not Self Invertible Elements: ', self.get_not_self_invertible())
-        print('Is Abelian: ', self.is_abelian())
-        print('Is Cyclic: ', self.is_cyclic())
-        print('Subgroups: ', self.get_subgroups())
-        print('Centre: ', self.centre)
-        print('Generators: ', self.generators)
-        print('Normal Subgroups: ', self.get_normal_subgroups())
+        info_dict = {
+            "Is Group": self.is_group(),
+            "Elements": set(self.elements),
+            "Order": self.order,
+            "Cayley Table": self.cayley_table,
+            "Identity Exist": self.identity_exist,
+            "Identity": self.identity,
+            "Inverses exist": self.is_inverse(),
+            "Inverses": self.inverses,
+            "Self Invertible Elements": self.self_invertible_elements,
+            "Not Self Invertible Elements": self.get_not_self_invertible(),
+            "Is Abelian": self.is_abelian(),
+            "Is Cyclic": self.is_cyclic(),
+            "Subgroups": self.get_subgroups(),
+            "Centre": self.centre,
+            "Generators": self.generators,
+            "Normal Subgroups": self.get_normal_subgroups(),
+            "Is Simple": self.is_simple()
+        }
+
+        return info_dict
 
     def get_cayley_table(self):
         if type(self.elements[0]) is str:
-            matrix = np.zeros((self.order, self.order), dtype='1<U')
+            matrix = np.zeros((self.order, self.order), dtype='2<U')
         else:
             matrix = np.zeros((self.order, self.order))
         row = 0
@@ -71,7 +76,7 @@ class GROUP:
         return matrix
 
     def is_closed(self):
-        if np.array_equal(np.unique(self.cayley_table), np.array(self.elements)):
+        if set(list(np.unique(self.cayley_table))) == set(list(self.elements)):
             return True
         return False
 
@@ -167,6 +172,11 @@ class GROUP:
             if self.is_normal(list(subgroup)):
                 normal_subgroup.append(subgroup)
         return normal_subgroup
+
+    def is_simple(self):
+        if len(self.get_normal_subgroups()) == 2:
+            return True
+        return False
 
     def get_centre(self):
         centre = set()
