@@ -19,7 +19,7 @@ As the name suggests, this project aims to explore properties of finite groups t
 - ~~Add functions to obtain a * b, a * b^-1, a^n~~
 - ~~More info about groups like generators, normal subgroups~~
 - Add functionality like external direct product, quotient group.
-- Add popular groups like ~~Z_n, U_m, K4, Q8~~ S(n), A(n), D(n) to easily initialize at go.
+- Add popular groups like ~~Z_n, U_m, K4, Q8, S(n), A(n),~~  D(n) to easily initialize at go.
 - Further generalise it for rings, fields, ufds, pids.
 - visualizing datasets formed for this module for different groups.
 - incorporate groups formed using matrices.
@@ -36,7 +36,11 @@ As the name suggests, this project aims to explore properties of finite groups t
 ```python
 # example
 from GROUP import GROUP
-Z_5 = GROUP(elements=[0,1,2,3,4], expression='(a+b)%5')
+# defining function
+def mod_5(a,b):
+    return (a+b)%5
+
+GROUP({0,1,2,3,4},mod_5 ).info()
 
 ```
 
@@ -73,12 +77,8 @@ GROUP(K4().elements, K4().function).info()
 print('\n')
 GROUP(Q8().elements, Q8().function).info()
 print('\n')
+GROUP(S(3).elements, S(3).function).info()
 
-# defining group
-def mod_5(a,b):
-    return (a+b)%5
-
-GROUP(elements={0,1,2,3,4},func=mod_5 ).info()
 
 ```
 
@@ -209,7 +209,93 @@ Generators: {1, 2, 3, 4}
 Normal Subgroups: [{0}, {0, 1, 2, 3, 4}]
 Is Simple: True
 
-
+{'Is Group': True,
+ 'Elements': {permutation.Permutation(2, 3, 1),
+  permutation.Permutation(2, 1),
+  permutation.Permutation(3, 1, 2),
+  permutation.Permutation(3, 2, 1),
+  permutation.Permutation(1, 3, 2),
+  permutation.Permutation()},
+ 'Order': 6,
+ 'Cayley Table': array([[permutation.Permutation(), permutation.Permutation(2, 1),
+         permutation.Permutation(1, 3, 2),
+         permutation.Permutation(3, 1, 2),
+         permutation.Permutation(2, 3, 1),
+         permutation.Permutation(3, 2, 1)],
+        [permutation.Permutation(2, 1), permutation.Permutation(),
+         permutation.Permutation(2, 3, 1),
+         permutation.Permutation(3, 2, 1),
+         permutation.Permutation(1, 3, 2),
+         permutation.Permutation(3, 1, 2)],
+        [permutation.Permutation(1, 3, 2),
+         permutation.Permutation(3, 1, 2), permutation.Permutation(),
+         permutation.Permutation(2, 1), permutation.Permutation(3, 2, 1),
+         permutation.Permutation(2, 3, 1)],
+        [permutation.Permutation(3, 1, 2),
+         permutation.Permutation(1, 3, 2),
+         permutation.Permutation(3, 2, 1),
+         permutation.Permutation(2, 3, 1), permutation.Permutation(),
+         permutation.Permutation(2, 1)],
+        [permutation.Permutation(2, 3, 1),
+         permutation.Permutation(3, 2, 1), permutation.Permutation(2, 1),
+         permutation.Permutation(), permutation.Permutation(3, 1, 2),
+         permutation.Permutation(1, 3, 2)],
+        [permutation.Permutation(3, 2, 1),
+         permutation.Permutation(2, 3, 1),
+         permutation.Permutation(3, 1, 2),
+         permutation.Permutation(1, 3, 2), permutation.Permutation(2, 1),
+         permutation.Permutation()]], dtype=object),
+ 'Identity Exist': True,
+ 'Identity': permutation.Permutation(),
+ 'Inverses exist': True,
+ 'Inverses': {(permutation.Permutation(), permutation.Permutation()),
+  (permutation.Permutation(1, 3, 2), permutation.Permutation(1, 3, 2)),
+  (permutation.Permutation(2, 1), permutation.Permutation(2, 1)),
+  (permutation.Permutation(2, 3, 1), permutation.Permutation(3, 1, 2)),
+  (permutation.Permutation(3, 2, 1), permutation.Permutation(3, 2, 1))},
+ 'Self Invertible Elements': {permutation.Permutation(2, 1),
+  permutation.Permutation(3, 2, 1),
+  permutation.Permutation(1, 3, 2),
+  permutation.Permutation()},
+ 'Not Self Invertible Elements': {permutation.Permutation(2, 3, 1),
+  permutation.Permutation(3, 1, 2)},
+ 'Is Abelian': False,
+ 'Is Cyclic': False,
+ 'Subgroups': [{permutation.Permutation()},
+  {permutation.Permutation(2, 1), permutation.Permutation()},
+  {permutation.Permutation(1, 3, 2), permutation.Permutation()},
+  {permutation.Permutation(2, 1),
+   permutation.Permutation(1, 3, 2),
+   permutation.Permutation()},
+  {permutation.Permutation(2, 3, 1),
+   permutation.Permutation(3, 1, 2),
+   permutation.Permutation()},
+  {permutation.Permutation(3, 2, 1), permutation.Permutation()},
+  {permutation.Permutation(2, 1),
+   permutation.Permutation(3, 2, 1),
+   permutation.Permutation()},
+  {permutation.Permutation(3, 2, 1),
+   permutation.Permutation(1, 3, 2),
+   permutation.Permutation()},
+  {permutation.Permutation(2, 3, 1),
+   permutation.Permutation(2, 1),
+   permutation.Permutation(3, 1, 2),
+   permutation.Permutation(3, 2, 1),
+   permutation.Permutation(1, 3, 2),
+   permutation.Permutation()}],
+ 'Centre': {permutation.Permutation()},
+ 'Generators': set(),
+ 'Normal Subgroups': [{permutation.Permutation()},
+  {permutation.Permutation(2, 3, 1),
+   permutation.Permutation(3, 1, 2),
+   permutation.Permutation()},
+  {permutation.Permutation(2, 3, 1),
+   permutation.Permutation(2, 1),
+   permutation.Permutation(3, 1, 2),
+   permutation.Permutation(3, 2, 1),
+   permutation.Permutation(1, 3, 2),
+   permutation.Permutation()}],
+ 'Is Simple': False}
 
 ```
 
