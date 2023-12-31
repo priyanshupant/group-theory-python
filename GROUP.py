@@ -1,4 +1,5 @@
 import numpy as np
+import permutation
 
 
 def a_pows(a, function, n):
@@ -62,20 +63,22 @@ class GROUP:
         return info_dict
 
     def get_cayley_table(self):
-        if type(self.elements[0]) is str:
-            matrix = np.zeros((self.order, self.order), dtype='2<U')
+        if type(self.elements[0]) is not int:
+            matrix = np.zeros((self.order, self.order), dtype= 'object')
         else:
             matrix = np.zeros((self.order, self.order))
         row = 0
         for element1 in self.elements:
             col = 0
             for element2 in self.elements:
-                matrix[row, col] = self.function(element1, element2)
+                matrix[row, col] = (self.function(element1, element2))
                 col += 1
             row += 1
         return matrix
 
     def is_closed(self):
+        if type(self.elements[0]) is permutation.Permutation:
+            return True
         if set(list(np.unique(self.cayley_table))) == set(list(self.elements)):
             return True
         return False
@@ -140,16 +143,19 @@ class GROUP:
 
     def get_not_self_invertible(self):
         return set([x for x in self.elements if x not in self.self_invertible_elements])
+    
 
     def get_subgroups(self):
         subgroups = []
         subsets = [subset for subset in powerset(self.elements) if subset]
         for subset in subsets:
-            subgroup = GROUP(subset, self.function)
-            subgroup.cayley_table = subgroup.get_cayley_table()
+            if len(subset) !=0:
+                if self.order%len(subset)==0:
+                    subgroup = GROUP(subset, self.function)
+                    subgroup.cayley_table = subgroup.get_cayley_table()
 
-            if subgroup.is_group():
-                subgroups.append(set(subgroup.elements))
+                    if subgroup.is_group():
+                        subgroups.append(set(subgroup.elements))
 
         return subgroups
 
@@ -184,3 +190,4 @@ class GROUP:
             if np.array_equal(self.cayley_table[i, :], self.cayley_table[:, i]):
                 centre.add(self.elements[i])
         return centre
+
