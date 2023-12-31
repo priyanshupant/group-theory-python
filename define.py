@@ -1,5 +1,5 @@
 import numpy as np
-
+from permutation import Permutation 
 
 def gcd(a, b):
     while b:
@@ -51,6 +51,28 @@ class Q8:
 
 
 class S:
-    def __init__(self):
-        self.elements = []
-    # in progress
+    def __init__(self, n):
+        self.elements = self.get_set(n)
+
+    def get_set(self, n):
+        elements = []
+        for p in Permutation.group(n):
+            elements.append(p)       
+        return elements
+    
+    def function(self, a, b):
+        return a*b
+
+class A:
+    def __init__(self, n):
+        self.elements = self.get_set(n)
+
+    def get_set(self, n):
+        elements = []
+        for p in Permutation.group(n):
+            if p.is_even:
+                elements.append(p)       
+        return elements
+    
+    def function(self, a, b):
+        return a*b
