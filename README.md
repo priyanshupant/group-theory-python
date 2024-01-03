@@ -62,6 +62,7 @@ GROUP({0,1,2,3,4},mod_5 ).info()
 - get_normal_subgroups(): Find all normals subgroups of the group.
 - generators: gives all the generator
 - is_simple(): Checks if group is simple
+- visualize(): Visualizing cayley tables as images.
 
 ## Example Usage:
 
@@ -298,6 +299,33 @@ Is Simple: True
  'Is Simple': False}
 
 ```
+
+## Group Visualization
+
+### Integers under addition modulo, Z<sub>n</sub>
+
+<img src="https://github.com/priyanshupant/group-theory/assets/50315906/9301910f-4b0d-4b79-8d87-a1ab7656a483" width="300" ><img src="https://github.com/priyanshupant/group-theory/assets/50315906/d5e2c7ed-ef51-4aab-a9ac-2709ab1133be" width="300" ><img src="https://github.com/priyanshupant/group-theory/assets/50315906/a282d2ee-a68e-4a69-91fb-07d74df12a79" width="300" >
+
+
+### Integers under multiplication modulo, U<sub>n</sub>
+
+<img src="https://github.com/priyanshupant/group-theory/assets/50315906/aa9de9b8-8b3f-4867-a05d-fdb8bf65a2fe" width="300" ><img src="https://github.com/priyanshupant/group-theory/assets/50315906/504aab43-ad9f-4a17-9649-298b3582a332" width="300" ><img src="https://github.com/priyanshupant/group-theory/assets/50315906/91449964-98de-42fb-8675-0d6d5a645ede" width="300" >
+
+
+### Klein's four group, K<sub>4</sub>
+![image](https://github.com/priyanshupant/group-theory/assets/50315906/1783341c-7860-4f19-b56d-d1448eb5cdb1)
+
+
+### Quaternion group, Q<sub>8</sub>
+![image](https://github.com/priyanshupant/group-theory/assets/50315906/c4dff4a9-9bfe-48ef-b7f1-7cece11e5703)
+
+
+### Symmetry group, S<sub>n</sub>
+![image](https://github.com/priyanshupant/group-theory/assets/50315906/f5b7337b-125b-4f8e-a910-33d09e734689)
+![image](https://github.com/priyanshupant/group-theory/assets/50315906/73e25ae0-d84a-498b-b08c-f6f499f3bf56)
+
+
+
 
 ## **Contribution**
 
