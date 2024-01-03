@@ -1,5 +1,6 @@
 import numpy as np
 import permutation
+import matplotlib.pyplot as plt
 
 
 def a_pows(a, function, n):
@@ -64,7 +65,7 @@ class GROUP:
 
     def get_cayley_table(self):
         if type(self.elements[0]) is not int:
-            matrix = np.zeros((self.order, self.order), dtype= 'object')
+            matrix = np.zeros((self.order, self.order), dtype='object')
         else:
             matrix = np.zeros((self.order, self.order))
         row = 0
@@ -143,14 +144,13 @@ class GROUP:
 
     def get_not_self_invertible(self):
         return set([x for x in self.elements if x not in self.self_invertible_elements])
-    
 
     def get_subgroups(self):
         subgroups = []
         subsets = [subset for subset in powerset(self.elements) if subset]
         for subset in subsets:
-            if len(subset) !=0:
-                if self.order%len(subset)==0:
+            if len(subset) != 0:
+                if self.order % len(subset) == 0:
                     subgroup = GROUP(subset, self.function)
                     subgroup.cayley_table = subgroup.get_cayley_table()
 
@@ -190,4 +190,19 @@ class GROUP:
             if np.array_equal(self.cayley_table[i, :], self.cayley_table[:, i]):
                 centre.add(self.elements[i])
         return centre
+
+    def visualize(self):
+        if type(self.elements[0]) is not int:
+            mapping = {}
+            i = 0
+            for element in self.elements:
+                mapping[element] = i
+                i += 1
+            vectorized_mapping = np.vectorize(mapping.get)
+            array = vectorized_mapping(self.cayley_table)
+        else:
+            array = self.cayley_table
+        plt.imshow(array)
+        plt.colorbar()
+        plt.show()
 
