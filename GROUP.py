@@ -205,4 +205,12 @@ class GROUP:
         plt.imshow(array)
         plt.colorbar()
         plt.show()
+    
+class EDP:
+    def __init__(self, G1: GROUP, G2: GROUP):
+        self.G1 = G1
+        self.G2 = G2
+        self.elements = list(product(set(G1.elements), set(G2.elements)))
 
+    def function(self, x,y):
+        return (self.G1.function(x[0], y[0]), self.G2.function(x[1], y[1]))
