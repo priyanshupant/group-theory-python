@@ -1,7 +1,8 @@
 # Exploring Finite Groups through Python
 ## About
 
-As the name suggests, this project aims to explore properties of finite groups through python.
+The project aims to explore the intricate properties of finite groups through computational methods implemented in Python. Leveraging libraries such as NumPy for numerical computations, permutation for handling permutations, and Matplotlib for visualization, the project provides a comprehensive framework for conceptualizing and analyzing group theory concepts. 
+The core component of the project is the GROUP class, which encapsulates functionalities to examine various properties of a group, including closure, identity, inverses, and Abelianity. Additionally, the EDP class facilitates operations on the Cartesian product of two groups, enhancing the project's versatility in studying group interactions. Through its modular design and rich functionality, this project serves as a valuable tool for both beginners and advanced learners seeking to delve into the depths of group theory using Python.
 
 
 
@@ -18,7 +19,7 @@ As the name suggests, this project aims to explore properties of finite groups t
 
 - ~~Add functions to obtain a * b, a * b^-1, a^n~~
 - ~~More info about groups like generators, normal subgroups~~
-- Add functionality like external direct product, quotient group.
+- Add functionality like ~~external direct product~~, quotient group.
 - Add popular groups like ~~Z_n, U_m, K4, Q8, S(n), A(n),~~  D(n) to easily initialize at go.
 - Further generalise it for rings, fields, ufds, pids.
 - visualizing datasets formed for this module for different groups.
@@ -323,6 +324,19 @@ Is Simple: True
 ### Symmetry group, S<sub>n</sub>
 ![image](https://github.com/priyanshupant/group-theory/assets/50315906/f5b7337b-125b-4f8e-a910-33d09e734689)
 ![image](https://github.com/priyanshupant/group-theory/assets/50315906/73e25ae0-d84a-498b-b08c-f6f499f3bf56)
+
+
+### Some External Direct Products
+
+![image](https://github.com/priyanshupant/group-theory-python/assets/50315906/44858a91-21cf-4ad2-9b0c-1692c3959a43)
+![image](https://github.com/priyanshupant/group-theory-python/assets/50315906/cac5738c-76f5-4869-838b-f8dcda2a4fe4)
+![image](https://github.com/priyanshupant/group-theory-python/assets/50315906/9ba9c74b-b0bc-48d9-a630-ba3a3decc3dd)
+
+![image](https://github.com/priyanshupant/group-theory-python/assets/50315906/3642c039-8f8b-4355-8575-64426b49696a)
+![image](https://github.com/priyanshupant/group-theory-python/assets/50315906/441edb77-f559-48da-9b81-c04cfe52ba3f)
+![image](https://github.com/priyanshupant/group-theory-python/assets/50315906/2a4b2ef3-06f6-426e-83a7-0ad86a8bf23e)
+
+
 
 
 
